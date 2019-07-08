@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Creatuity. All rights reserved.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Creatuity\Monitor\Block\Adminhtml\Exceptions" name="adminhtml.block.promo.quote.grid.container">
+                <block class="Creatuity\Monitor\Block\Adminhtml\ExceptionsGrid" name="adminhtml.block.promo.quote.grid" as="grid">
+                    <arguments>
+                        <argument name="id" xsi:type="string">creatuity_monitor_exceptions_grid</argument>
+                        <argument name="dataSource" xsi:type="object">Creatuity\Monitor\Model\Resource\Exception\Collection</argument>
+                        <argument name="default_sort" xsi:type="string">id</argument>
+                        <argument name="save_parameters_in_session" xsi:type="string">1</argument>
+                    </arguments>
+                    <block class="Creatuity\Monitor\Block\Adminhtml\ExceptionsColumns" as="grid.columnSet" name="adminhtml.promo.quote.grid.columnSet">
+                        <arguments>
+                            <argument name="rowUrl" xsi:type="array">
+                                <item name="path" xsi:type="string">creatuity_monitor/*/edit</item>
+                                <item name="extraParamsTemplate" xsi:type="array">
+                                    <item name="id" xsi:type="string">getId</item>
+                                </item>
+                            </argument>
+                        </arguments>
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="id">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">id</argument>
+                                <argument name="index" xsi:type="string">id</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="filename">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">File</argument>
+                                <argument name="index" xsi:type="string">filename</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="schedule">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">Line</argument>
+                                <argument name="index" xsi:type="string">line</argument>
+                            </arguments>
+                        </block>
+
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="state">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">state</argument>
+                                <argument name="index" xsi:type="string">state</argument>
+                            </arguments>
+                        </block>
+
+
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="state_string">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">state_string</argument>
+                                <argument name="index" xsi:type="string">state_string</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="sort_order">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">sort_order</argument>
+                                <argument name="index" xsi:type="string">sort_order</argument>
+                            </arguments>
+                        </block>
+
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="current_count">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">current_count</argument>
+                                <argument name="index" xsi:type="string">current_count</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="total_count">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">total_count</argument>
+                                <argument name="index" xsi:type="string">total_count</argument>
+                            </arguments>
+                        </block>
+
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="message">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">message</argument>
+                                <argument name="index" xsi:type="string">message</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="first_time">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">first_time</argument>
+                                <argument name="index" xsi:type="string">first_time</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Backend\Block\Widget\Grid\Column" as="last_time">
+                            <arguments>
+                                <argument name="header" xsi:type="string" translate="true">last_time</argument>
+                                <argument name="index" xsi:type="string">last_time</argument>
+                            </arguments>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

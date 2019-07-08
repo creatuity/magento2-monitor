@@ -1,0 +1,54 @@
+<?php /** @var \Creatuity\Monitor\Block\Adminhtml\Exceptions\Edit $block */?>
+<div class="page-main-actions">
+    <div data-mage-init='{"floatingHeader": {}}' class="page-actions"  data-ui-id="page-actions-toolbar-content-header" >
+        <button id="back" title="Back" type="button" class="action-default scalable back" onclick="setLocation('<?php echo $block->getBackUrl() ?>')"  data-ui-id="archive-buttons-back-button" >
+            <span>Back</span>
+        </button>
+
+        <form method="post" action="<?php echo $block->getSaveUrl($block->getException()->getId()) ?>">
+            <input type="hidden" name="form_key" value="<?php echo $block->getFormKey() ?>" />
+            <input type="hidden" name="x" value="y"/>
+            <?php if ($this->getException()->getState() != \Creatuity\Monitor\Model\Exception::STATE_NEW): ?>
+                <button id="order-view-cancel-button" title="Cancel" type="submit" class="action-default scalable cancel" data-ui-id="archive-buttons-order-view-cancel-button-button" name="action" value="new">
+                    <span>Mark as NEW</span>
+                </button>
+            <?php endif; ?>
+            <?php if ($this->getException()->getState() != \Creatuity\Monitor\Model\Exception::STATE_KNOWN): ?>
+                <button id="order-view-cancel-button" title="Cancel" type="submit" class="action-default scalable cancel" data-ui-id="archive-buttons-order-view-cancel-button-button"  name="action" value="known">
+                    <span>Mark as KNOWN</span>
+                </button>
+            <?php endif; ?>
+            <?php if ($this->getException()->getState() != \Creatuity\Monitor\Model\Exception::STATE_FIXED): ?>
+                <button id="mom_export_order_button" title="Export Order" type="submit" class="action-default scalable primary" data-ui-id="archive-buttons-mom-export-order-button-button"   name="action" value="fixed">
+                    <span>Mark as FIXED</span>
+                </button>
+            <?php endif; ?>
+        </form>
+    </div>
+</div>
+
+<legend class="admin__legend legend">
+    <span><?php echo $block->getException()->getSapi(); ?> exception [<?php echo $block->getException()->getId(); ?>]: "<?php echo $block->getException()->getMessage(); ?>"</span>
+    <span class="state-box state-box-<?php echo $block->getException()->getStateString(); ?>"><?php echo $block->getException()->getStateString(); ?></span>
+</legend>
+<p>
+    current count: <?php echo $block->getException()->getCurrentCount(); ?>
+    total count: <?php echo $block->getException()->getTotalCount(); ?>
+</p>
+<p>
+    first occurence: <?php echo $block->getException()->getFirstTime(); ?>
+    last occurence: <?php echo $block->getException()->getLastTime(); ?>
+</p>
+
+<h1>location</h1>
+<div>
+    <a href="phpstorm://open?file=<?php echo $block->getException()->getFilename(); ?>&line=<?php echo $block->getException()->getLine(); ?>"><?php echo $block->getException()->getFilename(); ?>:<?php echo $block->getException()->getLine(); ?></a>
+</div>
+
+<h1>stack</h1>
+<pre><?php echo htmlspecialchars($block->getException()->getStack()); ?></pre>
+
+<h1>request</h1>
+<pre><?php echo htmlspecialchars($block->getException()->getRequest()); ?></pre>
+
+

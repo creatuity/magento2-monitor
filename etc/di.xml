@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="creatuity:monitor:status" xsi:type="object">Creatuity\Monitor\Console\Status</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\AppInterface">
+        <plugin name="creatuity_monitor_exceptions" type="Creatuity\Monitor\Plugin\MonitorExceptions" />
+    </type>
+
+    <type name="Magento\Sales\Model\Order\Email\Sender">
+        <plugin name="creatuity_monitor_emails" type="Creatuity\Monitor\Plugin\EmailsCounter" />
+    </type>
+
+    <type name="Magento\Framework\Webapi\ErrorProcessor">
+        <plugin name="creatuity_monitor_webapi_error_logger" type="Creatuity\Monitor\Plugin\WebapiErrorLogger" sortOrder="1"/>
+    </type>
+
+
+</config>

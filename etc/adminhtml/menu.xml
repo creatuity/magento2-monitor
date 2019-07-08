@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Creatuity. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Creatuity_Monitor::base" title="Creatuity Monitor" module="Creatuity_Monitor" sortOrder="10" parent="Magento_Backend::system" resource="Creatuity_Monitor::base"/>
+        <add id="Creatuity_Monitor::exception" title="Monitor Exceptions" module="Creatuity_Monitor" sortOrder="10" parent="Creatuity_Monitor::base" action="creatuity_monitor/exceptions/" resource="Creatuity_Monitor::exceptions"/>
+        <add id="Creatuity_Monitor::metrics" title="Monitor Metrics" module="Creatuity_Monitor" sortOrder="5" parent="Creatuity_Monitor::base" action="creatuity_monitor/metrics/" resource="Creatuity_Monitor::metrics"/>
+        <add id="Creatuity_Monitor::kpis" title="Monitor KPIs" module="Creatuity_Monitor" sortOrder="6" parent="Creatuity_Monitor::base" action="creatuity_monitor/kpis/" resource="Creatuity_Monitor::kpis"/>
+    </menu>
+</config>

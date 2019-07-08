@@ -1,0 +1,116 @@
+<?php /** @var \Creatuity\Monitor\Block\Adminhtml\Metrics $block */?>
+
+
+<?php function drawCounterChart($block, $chart){ ?>
+    {
+    var data = google.visualization.arrayToDataTable([
+    ['TS', 'count', 'last week count'],
+
+    <?php foreach($block->getStats($chart) as $k => $v): ?>
+        ['<?php echo $k; ?>', <?php echo $v[0]; ?>, <?php echo $v[2]; ?>],
+    <?php endforeach; ?>
+    ]);
+
+    var options = {
+    title: '<?php echo $chart ?>',
+    vAxes: {
+    0: {logScale: false, minValue: 0}
+    },
+    colors: ['#005', '#500'],
+    series: {
+    0: {targetAxisIndex: 0},
+    1: {targetAxisIndex: 0},
+    },
+    chartArea: {width: '85%', height: '75%'},
+    legend: {position: 'bottom'}
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_<?php echo $chart ?>'));
+
+    chart.draw(data, options);
+    }
+<?php } ?>
+
+<?php function drawTimerChart($block, $chart){ ?>
+
+    {
+    var data = google.visualization.arrayToDataTable([
+    ['TS', 'count', 'avg time', 'last week count', 'last week avg time'],
+
+    <?php foreach($block->getStats($chart) as $k => $v): ?>
+        ['<?php echo $k; ?>', <?php echo $v[0]; ?>, <?php echo $v[1]; ?>, <?php echo $v[2]; ?>, <?php echo $v[3]; ?>],
+    <?php endforeach; ?>
+    ]);
+
+    var options = {
+    title: '<?php echo $chart ?>',
+    vAxes: {
+    0: {logScale: false, minValue: 0},
+    1: {logScale: false, format: '# µs', minValue: 0}
+    },
+    colors: ['#005', '#00f', '#500', '#f00'],
+    series: {
+    0: {targetAxisIndex: 0, lineDashStyle: [3, 2]},
+    1: {targetAxisIndex: 1},
+    2: {targetAxisIndex: 0, lineDashStyle: [3, 2]},
+    3: {targetAxisIndex: 1}
+    },
+    chartArea: {width: '85%', height: '75%'},
+    legend: {position: 'bottom'}
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_<?php echo $chart ?>'));
+
+    chart.draw(data, options);
+    }
+<?php } ?>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts() {
+        <?php drawCounterChart($block, 'exceptions'); ?>
+
+        <?php drawTimerChart($block, 'request_mtime'); ?>
+        <?php drawTimerChart($block, 'request_stime'); ?>
+        <?php drawTimerChart($block, 'request_utime'); ?>
+        <?php drawTimerChart($block, 'request_memory'); ?>
+        <?php drawTimerChart($block, 'request_io'); ?>
+
+    }
+</script>
+
+<h1>Core</h1>
+<div style="display:flex;">
+    <div style="flex:1">
+        <div id="chart_request_mtime" style="height: 400px;"></div>
+        <p>time from start to end of a single server request</p>
+    </div>
+    <div style="flex:1">
+        <div id="chart_request_memory" style="height: 400px;"></div>
+        <p>max memory used by the request</p>
+    </div>
+    <div style="flex:1">
+        <div id="chart_exceptions" style="height: 400px;"></div>
+        <p>no exceptions</p>
+    </div>
+</div>
+
+<h1>Request Details</h1>
+<div style="display:flex;">
+    <div style="flex:1">
+        <div id="chart_request_stime" style="height: 330px;"></div>
+        <p>system time used by request</p>
+    </div>
+    <div style="flex:1">
+        <div id="chart_request_utime" style="height: 330px;"></div>
+        <p>user time used by request</p>
+    </div>
+    <div style="flex:1">
+        <div id="chart_request_io" style="height: 330px;"></div>
+        <p>input/output operations made by request</p>
+    </div>
+</div>
+

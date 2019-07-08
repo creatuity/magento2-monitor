@@ -1,0 +1,17 @@
+{
+  "name": "creatuity/magento2-monitor",
+  "description": "Creatuity Magento Monitor",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Creatuity Corp",
+      "homepage": "http://creatuity.com/"
+    }
+  ],
+  "autoload": {
+    "files": ["registration.php"],
+    "psr-4": {
+      "Creatuity\\Monitor\\": ""
+    }
+  }
+}

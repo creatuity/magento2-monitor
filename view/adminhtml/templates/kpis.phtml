@@ -1,0 +1,132 @@
+<?php /** @var \Creatuity\Monitor\Block\Adminhtml\Metrics $block */?>
+
+
+<?php function drawCounterChart($block, $chart){ ?>
+    {
+    var data = google.visualization.arrayToDataTable([
+    ['TS', 'count', 'last week count'],
+
+    <?php foreach($block->getStats($chart) as $k => $v): ?>
+        ['<?php echo $k; ?>', <?php echo $v[0]; ?>, <?php echo $v[2]; ?>],
+    <?php endforeach; ?>
+    ]);
+
+    var options = {
+    title: '<?php echo $chart ?>',
+    vAxes: {
+    0: {logScale: false, minValue: 0}
+    },
+    colors: ['#005', '#500'],
+    series: {
+    0: {targetAxisIndex: 0},
+    1: {targetAxisIndex: 0},
+    },
+    chartArea: {width: '85%', height: '75%'},
+    legend: {position: 'bottom'}
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_<?php echo $chart ?>'));
+
+    chart.draw(data, options);
+    }
+<?php } ?>
+
+<?php function drawRelationChart($block, $chart1, $chart2){ ?>
+    {
+    var data = google.visualization.arrayToDataTable([
+    ['TS', 'count', 'last week count'],
+
+    <?php foreach($block->getStatsRelation($chart1, $chart2) as $k => $v): ?>
+        ['<?php echo $k; ?>', <?php echo $v[0]; ?>, <?php echo $v[1]; ?>],
+    <?php endforeach; ?>
+    ]);
+
+    var options = {
+    title: '<?php echo $chart1 . ' - ' . $chart2 ?>',
+    vAxes: {
+    0: {logScale: false, minValue: 0}
+    },
+    colors: ['#005', '#500'],
+    series: {
+    0: {targetAxisIndex: 0},
+    1: {targetAxisIndex: 0},
+    },
+    chartArea: {width: '85%', height: '75%'},
+    legend: {position: 'bottom'}
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_<?php echo $chart1 ?>'));
+
+    chart.draw(data, options);
+    }
+<?php } ?>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+
+    function drawCharts() {
+        <?php drawRelationChart($block, 'action.checkout.shipping.post', 'action.checkout.shipping'); ?>
+        <?php drawRelationChart($block, 'action.checkout.payment', 'action.checkout.shipping.post'); ?>
+        <?php drawRelationChart($block, 'action.checkout.payment.post', 'action.checkout.payment'); ?>
+        <?php drawRelationChart($block, 'action.checkout.confirmation', 'action.checkout.payment.post'); ?>
+
+        <?php drawCounterChart($block, 'event.sales_order_place_after'); ?>
+        <?php drawCounterChart($block, 'event.sales_order_payment_capture'); ?>
+        <?php drawCounterChart($block, 'eagle_order_exports'); ?>
+        <?php drawCounterChart($block, 'email_sent'); ?>
+        <?php drawCounterChart($block, 'email.BulkOrderSender'); ?>
+    }
+</script>
+
+<h1>Order Flow</h1>
+<div style="display:flex;">
+    <div style="flex:1">
+        <div id="chart_action.checkout.shipping.post" style="height: 330px;"></div>
+        <p>% of users that posted shipping form out of users who got to this form</p>
+    </div>
+    <div style="flex:1">
+        <div id="chart_action.checkout.payment" style="height: 330px;"></div>
+        <p>% of users that got to payment form out of users who posted shipping form</p>
+    </div>
+    <div style="flex:1">
+        <div id="chart_action.checkout.payment.post" style="height: 330px;"></div>
+        <p>% of users that posted payment form out of users who got to this form</p>
+    </div>
+    <div style="flex:1">
+        <div id="chart_action.checkout.confirmation" style="height: 330px;"></div>
+        <p>% of users that got to confirmation dialog out of users who posted payment form</p>
+    </div>
+</div>
+
+<h1>Events</h1>
+
+<div style="display:flex;">
+    <div style="flex:1">
+        <div id="chart_event.sales_order_place_after" style="height: 330px;"></div>
+        <p>order placed events</p>
+    </div>
+    <div style="flex:1">
+        <div id="chart_event.sales_order_payment_capture" style="height: 330px;"></div>
+        <p>order payment capture event</p>
+    </div>
+</div>
+<div style="display:flex;">
+    <div style="flex:1">
+        <div id="chart_eagle_order_exports" style="height: 330px;"></div>
+        <p>eagle order exports</p>
+    </div>
+    <div style="flex:1">
+        <div id="chart_email_sent" style="height: 330px;"></div>
+        <p>email sent events</p>
+    </div>
+    <div style="flex:1">
+        <div id="chart_email.BulkOrderSender" style="height: 330px;"></div>
+        <p>BulkOrderSender email sends</p>
+    </div>
+</div>
+
+
+
